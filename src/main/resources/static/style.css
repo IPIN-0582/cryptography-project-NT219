@@ -1,0 +1,85 @@
+/* Basic styles for a clean and professional look */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+/* Form styling for user-friendliness */
+form {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#fileInput {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.btn{
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+form button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#documentId {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+/* Styling for the download link (initially hidden) */
+#downloadLink {
+  display: none;
+  color: #007bff; /* Blue */
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+/* Link styling for a visually appealing button-like effect */
+a {
+  color: #007bff; /* Blue */
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: #ccc;
+}
+
+/* Additional styling for verification page elements (optional) */
+#verificationResult {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#verificationResult.success {
+  color: green;
+}
+
+#verificationResult.error {
+  color: red;
+}

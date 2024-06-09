@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <br>
+        <button type="submit">Login</button>
+    </form>
+    <p id="loginResult"></p>
+    <br>
+    <a href="register.html">Go to Register</a>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+
+            let formData = new URLSearchParams();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            let response = await fetch('/users/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            let loginResult = document.getElementById('loginResult');
+
+            if (response.ok) {
+                let user = await response.json();
+                loginResult.textContent = 'Login successful! Redirecting...';
+                // Lưu user ID vào localStorage để sử dụng cho các thao tác sau
+                localStorage.setItem('userId', user.id);
+                // Chuyển hướng đến trang ký tài liệu
+                window.location.href = 'sign.html';
+            } else {
+                loginResult.textContent = 'Login failed!';
+            }
+        });
+    </script>
+</body>
+</html>

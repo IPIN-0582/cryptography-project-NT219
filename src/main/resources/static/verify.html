@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Verification</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Upload Document to Verify</h1>
+    <form id="verifyForm">
+        <input type="file" id="fileInput" required />
+        <button type="submit">Verify Document</button>
+    </form>
+    <p id="verificationResult"></p>
+    <p id="signDate"></p>
+    <p id="signedBy"></p>
+    <br>
+    <a href="index.html">Go to Home</a>
+
+    <script>
+        document.getElementById('verifyForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            let fileInput = document.getElementById('fileInput');
+            let formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            let response = await fetch('/documents/verify', {
+                method: 'POST',
+                body: formData
+            });
+
+            let verificationResult = document.getElementById('verificationResult');
+            let signDate = document.getElementById('signDate');
+            let signedBy = document.getElementById('signedBy');
+
+            if (response.ok) {
+                let result = await response.json();
+                if (result.isVerified) {
+                    verificationResult.textContent = 'Document is valid';
+                    signDate.textContent = 'Sign Date: ' + new Date(result.signDate).toLocaleString();
+                    signedBy.textContent = 'Signed By: ' + result.signedBy;
+                } else {
+                    verificationResult.textContent = 'Document is invalid';
+                    signDate.textContent = '';
+                    signedBy.textContent = '';
+                }
+            } else {
+                verificationResult.textContent = 'Failed to verify document';
+            }
+        });
+    </script>
+</body>
+</html>

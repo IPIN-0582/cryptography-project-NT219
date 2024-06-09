@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Signing</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Upload Document to Sign</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" required />
+        <button type="submit">Sign Document</button>
+    </form>
+    <a id="downloadLink" style="display:none;">Download Signed Document</a>
+    <br>
+    <a href="verify.html">Go to Verify Document</a>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            let fileInput = document.getElementById('fileInput');
+            let userId = localStorage.getItem('userId');
+            if (!userId) {
+                alert('Please login first!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('userId', userId);
+
+            let response = await fetch('/documents/sign', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                let signedDocumentBlob = await response.blob();
+                let downloadLink = document.getElementById('downloadLink');
+                let url = URL.createObjectURL(signedDocumentBlob);
+                downloadLink.href = url;
+                downloadLink.download = 'signed_document.pdf';
+                downloadLink.style.display = 'block';
+            } else {
+                alert('Failed to sign document');
+            }
+        });
+    </script>
+</body>
+</html>
