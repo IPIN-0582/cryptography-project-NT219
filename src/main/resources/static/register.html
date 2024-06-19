@@ -30,19 +30,34 @@
             formData.append('username', username);
             formData.append('password', password);
 
-            let response = await fetch('/users/register', {
-                method: 'POST',
-                body: formData
-            });
+            if (await checkForExternalStorage()) {
+                let response = await fetch('/users/register', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            let registerResult = document.getElementById('registerResult');
+                let registerResult = document.getElementById('registerResult');
 
-            if (response.ok) {
-                registerResult.textContent = 'Registration successful!';
+                if (response.ok) {
+                    registerResult.textContent = 'Registration successful!';
+                } else {
+                    registerResult.textContent = 'Registration failed!';
+                }
             } else {
-                registerResult.textContent = 'Registration failed!';
+                alert("Please connect an external storage device to save your keys.");
             }
         });
+
+        async function checkForExternalStorage() {
+            try {
+                let response = await fetch('/users/check-usb');
+                let result = await response.json();
+                return result.length > 0;
+            } catch (error) {
+                console.error('Error checking for external storage:', error);
+                return false;
+            }
+        }
     </script>
 </body>
 </html>

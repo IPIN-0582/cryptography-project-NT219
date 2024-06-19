@@ -14,12 +14,6 @@ public class User {
     private String username;
     private String password;
 
-    @Lob
-    private byte[] privateKey;
-
-    @Lob
-    private byte[] publicKey;
-
     // Getters and setters
     public Long getId() {
         return id;
@@ -45,19 +39,4 @@ public class User {
         this.password = password;
     }
 
-    public byte[] getPrivateKey() {
-        return privateKey;
-    }
-
-    public void setPrivateKey(byte[] privateKey) {
-        this.privateKey = privateKey;
-    }
-
-    public byte[] getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(byte[] publicKey) {
-        this.publicKey = publicKey;
-    }
 }

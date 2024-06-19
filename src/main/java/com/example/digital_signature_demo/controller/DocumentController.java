@@ -1,7 +1,8 @@
 package com.example.digital_signature_demo.controller;
 
-import com.example.digital_signature_demo.service.DocumentService;
+import com.example.digital_signature_demo.model.Document;
 import com.example.digital_signature_demo.model.User;
+import com.example.digital_signature_demo.service.DocumentService;
 import com.example.digital_signature_demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -51,6 +53,20 @@ public class DocumentController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<byte[]> downloadSignedDocument(@PathVariable Long id) {
+        Document document = documentService.getDocumentById(id)
+                .orElseThrow(() -> new RuntimeException("Document not found"));
+
+        byte[] signedDocumentContent = document.getSignedDocumentContent();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=signed_document.pdf");
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+
+        return new ResponseEntity<>(signedDocumentContent, headers, HttpStatus.OK);
     }
 
 }

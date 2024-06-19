@@ -12,8 +12,9 @@ public class Document {
     @Lob
     private byte[] signature;
 
+
     @Lob
-    private byte[] publicKey;
+    private byte[] signedDocumentContent; // Thêm trường này
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,12 +39,13 @@ public class Document {
         this.signature = signature;
     }
 
-    public byte[] getPublicKey() {
-        return publicKey;
+
+    public byte[] getSignedDocumentContent() {
+        return signedDocumentContent;
     }
 
-    public void setPublicKey(byte[] publicKey) {
-        this.publicKey = publicKey;
+    public void setSignedDocumentContent(byte[] signedDocumentContent) {
+        this.signedDocumentContent = signedDocumentContent;
     }
 
     public User getUser() {
